@@ -76,4 +76,32 @@ public class TodoController {
 
         return "redirect:/todo/list";
     }
+
+
+    ///todo/modify?tno=XX
+
+    /**
+     * addFlashAttribute 와 addAttribute 차이
+     * addFlashAttribute : POST방식, 일회성이라 새로고침시 데이터 사라짐 즉, 리다이렉트 후 값 소멸
+     * addAttribute : GET방식 , 새로고침해도 값 유지
+     */
+    @PostMapping("/modify")
+    public String modify(@Valid TodoDTO todoDTO,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+
+        if(bindingResult.hasErrors()) {
+            log.info("has errors............");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors()); //<-- 에러정보는 한번 출력하고 필요없으니 FLASH
+            redirectAttributes.addAttribute("tno",todoDTO.getTno()); //<-- 몇번째 질문인지 tno값은 계속 사용되니까 유지되도록 addAttribute
+
+            return "redirect:/todo/modify"; //<---여기서 의문이였음! modify?tno=XXX가 없는데 어떻게 해당 글로 리다이렉트시키지?
+            //근데 생각해보면, GET요청일 때, 요청데이터가 쿼리파라미터로 실려가는거야
+            //그래서 리다이렉트로 다시 요청이 들어가는데 addAttribute를 통해 데이터가 GET으로 요청되니까 tno정보가 쿼리파라미터에 실리는거지!
+        }
+
+        log.info(todoDTO);
+        todoService.modify(todoDTO);
+        return "redirect:/todo/list"; //<- 난 read?tno=XXX로 가야하는거같은데;;
+    }
 }

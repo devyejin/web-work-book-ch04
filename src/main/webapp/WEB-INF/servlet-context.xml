@@ -12,10 +12,20 @@
         <property name="suffix" value=".jsp"></property>
     </bean>
 
+    <!--
+     XXXFormatter를 빈으로 등록하기 위해서는 아래와 같다고 했는데,
+     FormattingConversion-ServiceFactoryBean객체를 스피링 븐으로 등록하고, 이 안에다가 LocalDateFormatter를 추가해야함
+
+     전자 부분은 형식임 (class보면) 그리고, 그 안에 bean으로 내가 등록하려는 빈을 추가해주면 됨!
+
+     그리고, conversionService 빈 등록한 후에 스프링MVC를 처리할 때 <mvc:annotation-driven conversion-service="conversionService" />
+     이용한다는 것도 지정해주면 끗!
+     -->
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="formatters">
             <set>
                 <bean class="org.zerock.spring.controller.formatter.LocalDateFormatter" />
+                <bean class="org.zerock.spring.controller.formatter.CheckboxFormatter"/>
             </set>
         </property>
     </bean>

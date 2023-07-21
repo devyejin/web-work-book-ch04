@@ -45,7 +45,7 @@
                 Finished &nbsp;
             </label>
             <input class="form-check-input" type="checkbox" name="finished"
-            ${dto.finished ? "checked" : ""} disabled> <!-- true이면 checked속성 추가 -->
+            ${dto.finished ? "checked" : ""} > <!-- true이면 checked속성 추가 -->
         </div>
 
         <div class="my-4">
@@ -58,6 +58,17 @@
     </form>
 </div>
 <script>
+<%--    Valid 후 에러있는 경우 --%>
+    const serverValidResult = {};
+
+    <c:forEach items="${errors}" var="error">  <!-- items에는 colelction 변수명-->
+        serverValidResult['${error.getField()}'] = '${error.defaultMessage}';
+    </c:forEach>
+
+console.log(serverValidResult);
+
+
+<%--    버튼에 이벤트 거는 JS 코드 --%>
     const formObj = document.querySelector("form")
 
     <!-- addEventListener false 옵션 : 기본값이 false, true로하면 이벤트가 단 한번만 사용됨-->
@@ -72,12 +83,24 @@
     })
 
     document.querySelector(".btn-primary").addEventListener("click", function (e) {
-        console.log(self.location); //<-- 이건 getter로 동작
-        self.location = "/todo/modify?tno=" +
-        ${dto.tno} // <-- 이건 setter로동작
+
+        //console.log(self.location); //<-- 이건 getter로 동작 (참고용)
+        //self.location = "/todo/modify?tno=" +${dto.tno} // <-- 이건 setter로동작
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        formObj.action = "/todo/modify"; //ㄷㅂㄷㅂ
+        formObj.method = "post";
+
+        formObj.submit();
+
     }, false);
 
     document.querySelector(".btn-secondary").addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
         self.location = "/todo/list";
     }, false)
 
