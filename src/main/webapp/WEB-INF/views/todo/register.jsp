@@ -108,6 +108,15 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
+    const serverValidResult = {}
 
+    <c:forEach items="${errors}" var="error">
+    <!--대괄호 표기법, 객체에 프로퍼티 동적 추가 -->
+    serverValidResult['${error.getField()}'] = '${error.defaultMessage}' <!-- serverValidResult 에 프로퍼티 추가,, -->
+     </c:forEach>
+
+    console.log(serverValidResult);
+</script>
 </body>
 </html>
