@@ -11,4 +11,6 @@ public interface TodoService {
     List<TodoDTO> getAll(); //컨트롤러로 반환하니까 dto
 
     TodoDTO getOne(Long tno);
+
+    void remove(Long tno);
 }

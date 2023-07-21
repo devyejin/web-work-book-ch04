@@ -57,14 +57,23 @@ public class TodoController {
         return "redirect:/todo/list";
     }
 
-    @GetMapping("/read")
-    public String read(@RequestParam("tno") Long tno, Model model) { // 파라미터가 하나라 생략가능
+    @GetMapping({"/read", "/modify"}) // read, modify 둘 다 조회되는 화면은 동일
+    public void read(@RequestParam("tno") Long tno, Model model) { // 파라미터가 하나라 생략가능
         log.info("call read get method....");
 
         TodoDTO todoDTO = todoService.getOne(tno);
 
         model.addAttribute("dto", todoDTO);
+        //GetMapping에서 return으로 페이지를 명시하지않으면 url과 동일한 부분으로 보낸다!
+    }
 
-        return "/todo/read";
+    @PostMapping("/remove")
+    public String remove(Long tno, RedirectAttributes redirectAttributes) {
+        log.info("call remove method post .....");
+        log.info("tno = {}", tno);
+
+        todoService.remove(tno);
+
+        return "redirect:/todo/list";
     }
 }
