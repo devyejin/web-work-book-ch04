@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${dtoList}" var="dto">
+        <c:forEach items="${responseDTO.dtoList}" var="dto">
             <tr>
                 <th scope="row"><c:out value="${dto.tno}"/></th> <!--c:out 변수 값 출력 -->
                 <td><a href="/todo/read?tno=${dto.tno}" class="text-decoration-none"/><c:out value="${dto.title}"/></td>

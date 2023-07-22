@@ -1,12 +1,13 @@
 package org.zerock.spring.service;
 
 import lombok.extern.log4j.Log4j2;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.zerock.spring.dto.PageRequestDTO;
+import org.zerock.spring.dto.PageResponseDTO;
 import org.zerock.spring.dto.TodoDTO;
 
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ class TodoServiceImplTest {
     @Autowired
     private TodoService todoService;
 
-    @Test
+    @org.junit.Test
     void testRegister() {
 
         TodoDTO todoDTO = TodoDTO.builder()
@@ -31,5 +32,19 @@ class TodoServiceImplTest {
 
 
         todoService.register(todoDTO);
+    }
+
+    @Test
+    void testPaging() {
+        //given
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
+
+        //when
+        PageResponseDTO<TodoDTO> responseDTO = todoService.getList(pageRequestDTO);
+
+        //then
+        log.info("responseDTO={}", responseDTO);
+        responseDTO.getDtoList().stream().forEach(todoDTO -> log.info(todoDTO));
+
     }
 }

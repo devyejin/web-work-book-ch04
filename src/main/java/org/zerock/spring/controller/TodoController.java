@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.spring.dto.PageRequestDTO;
+import org.zerock.spring.dto.PageResponseDTO;
 import org.zerock.spring.dto.TodoDTO;
 import org.zerock.spring.service.TodoService;
 
@@ -21,14 +23,14 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    @GetMapping("/list")
-    public String list(Model model) {
-        log.info("todo list........");
-         //모델에 담아서 뷰로
-
-        model.addAttribute("dtoList",todoService.getAll());
-        return "/todo/list";
-    }
+//    @GetMapping("/list")
+//    public String list(Model model) {
+//        log.info("todo list........");
+//         //모델에 담아서 뷰로
+//
+//        model.addAttribute("dtoList",todoService.getAll());
+//        return "/todo/list";
+//    }
 
     // @RequestMapping(value = "/register", method = RequestMethod.GET)
     @GetMapping("/register")
@@ -78,7 +80,7 @@ public class TodoController {
     }
 
 
-    ///todo/modify?tno=XX
+
 
     /**
      * addFlashAttribute 와 addAttribute 차이
@@ -103,5 +105,22 @@ public class TodoController {
         log.info(todoDTO);
         todoService.modify(todoDTO);
         return "redirect:/todo/list"; //<- 난 read?tno=XXX로 가야하는거같은데;;
+    }
+
+    @GetMapping("/list")
+    public void list(@Valid PageRequestDTO pageRequestDTO,
+                     BindingResult bindingResult,
+                     Model model) {
+
+        log.info(pageRequestDTO);
+
+        if(bindingResult.hasErrors()) {
+            //에러가 있는경우 list 1페이지로 보내버리기
+            pageRequestDTO = PageRequestDTO.builder().build();//기본값이 1페이지 10개출력
+        }
+
+        PageResponseDTO<TodoDTO> responseDTO = todoService.getList(pageRequestDTO);
+        model.addAttribute("responseDTO", responseDTO);
+        // <--여기도 마찬가지로 return으로 페이지명시안하면 요청과 같은경로의 페이지로 보내줌
     }
 }
