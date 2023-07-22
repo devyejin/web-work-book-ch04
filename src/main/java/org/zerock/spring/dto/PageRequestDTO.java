@@ -25,11 +25,23 @@ public class PageRequestDTO {
     @Max(value=100)
     private int size = 10; //한 페이지당 보여주는 데이터 수
 
+    private String link;
+
     //query에서 expression을 쓸 수 없으니까 skip 수를 DTO에서 제공
     public int getSkip() {
         return (page-1) * size;
     } //책은 10인데 10보단 size가 적합한듯
 
 
+    public String getLink() {
+        if(link == null) {
+            StringBuilder builder = new StringBuilder();
+            builder.append("page=" + this.page);
+            builder.append("&size=" + this.size);
+            link = builder.toString();
+        }
+
+        return link;
+    }
 
 }

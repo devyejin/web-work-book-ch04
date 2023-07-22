@@ -30,7 +30,7 @@
         <c:forEach items="${responseDTO.dtoList}" var="dto">
             <tr>
                 <th scope="row"><c:out value="${dto.tno}"/></th> <!--c:out 변수 값 출력 -->
-                <td><a href="/todo/read?tno=${dto.tno}" class="text-decoration-none"/><c:out value="${dto.title}"/></td>
+                <td><a href="/todo/read?tno=${dto.tno}&${pageRequestDTO.link}" class="text-decoration-none"/><c:out value="${dto.title}"/></td>
                 <td><c:out value="${dto.writer}"/></td>
                 <td><c:out value="${dto.dueDate}"/><td>
                 <td><c:out value="${dto.finished}"/></td>

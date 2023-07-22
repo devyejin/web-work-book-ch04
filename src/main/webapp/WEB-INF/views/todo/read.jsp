@@ -56,11 +56,11 @@
   <!-- addEventListener false 옵션 : -->
   document.querySelector(".btn-primary").addEventListener("click",function (e) {
     console.log(self.location); //<-- 이건 getter로 동작
-    self.location = "/todo/modify?tno="+${dto.tno} // <-- 이건 setter로동작
+    self.location = `/todo/modify?tno=${dto.tno}&${pageRequestDTO.link}` // <-- 이건 setter로동작
   },false);
 
   document.querySelector(".btn-secondary").addEventListener("click", function (e){
-    self.location = "/todo/list";
+    self.location = "/todo/list?${pageRequestDTO.link}";
   },false)
 
 </script>

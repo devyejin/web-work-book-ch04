@@ -60,8 +60,10 @@ public class TodoController {
     }
 
     @GetMapping({"/read", "/modify"}) // read, modify 둘 다 조회되는 화면은 동일
-    public void read(@RequestParam("tno") Long tno, Model model) { // 파라미터가 하나라 생략가능
-        log.info("call read get method....");
+    public void read(@RequestParam("tno") Long tno,
+                     PageRequestDTO pageRequestDTO,
+                     Model model) { // 파라미터가 하나라 생략가능
+
 
         TodoDTO todoDTO = todoService.getOne(tno);
 
@@ -70,11 +72,17 @@ public class TodoController {
     }
 
     @PostMapping("/remove")
-    public String remove(Long tno, RedirectAttributes redirectAttributes) {
+    public String remove(Long tno,
+                         PageRequestDTO pageRequestDTO,
+                         RedirectAttributes redirectAttributes) {
         log.info("call remove method post .....");
         log.info("tno = {}", tno);
 
         todoService.remove(tno);
+
+        //삭제시에는 무조건 1페이지로 이동시키기
+        redirectAttributes.addAttribute("page",1);
+        redirectAttributes.addAttribute("size", pageRequestDTO.getSize());
 
         return "redirect:/todo/list";
     }
@@ -90,6 +98,7 @@ public class TodoController {
     @PostMapping("/modify")
     public String modify(@Valid TodoDTO todoDTO,
                          BindingResult bindingResult,
+                         PageRequestDTO pageRequestDTO,
                          RedirectAttributes redirectAttributes) {
 
         if(bindingResult.hasErrors()) {
@@ -104,6 +113,9 @@ public class TodoController {
 
         log.info(todoDTO);
         todoService.modify(todoDTO);
+        redirectAttributes.addAttribute("page", pageRequestDTO.getPage());
+        redirectAttributes.addAttribute("size", pageRequestDTO.getSize());
+
         return "redirect:/todo/list"; //<- 난 read?tno=XXX로 가야하는거같은데;;
     }
 
