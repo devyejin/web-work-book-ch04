@@ -38,6 +38,51 @@
         </c:forEach>
         </tbody>
     </table>
+
+    <div class="float-end">
+        <ul class="pagination flex-wrap">
+            <c:if test="${responseDTO.prev}">
+                <li class="page-item">
+                    <a href="#" class="page-link" data-num="${responseDTO.start-1}">이전</a>
+                </li>
+            </c:if>
+
+            <c:forEach begin="${responseDTO.start}" end="${responseDTO.end}" var = "num" >
+                <li class="page-item" ${responseDTO.page == num ? "active" : ""}>
+                    <a href="#" data-num=${num} class="page-link" >${num}</a> <!-- data-num=${num} data-num속성에 페이지값 저장 -->
+                </li>
+            </c:forEach>
+
+            <c:if test="${responseDTO.next}">
+                <li class="page-item">
+                    <a href="#" data-num="${responseDTO.end + 1}" class="page-link">다음</a>
+                </li>
+            </c:if>
+
+        </ul>
+    </div>
+
 </div>
+<script>
+//    <ul> 전체에 이벤트를 걸기
+    document.querySelector(".pagination").addEventListener("click",function (e){
+        console.log(("클릭 이벤트 걸리는중"))
+        e.preventDefault();
+        e.stopPropagation();
+
+        const target = e.target;
+
+
+        if(target.tagName !== 'A') {
+
+            return; //이벤트 안검
+        }
+
+        const num = target.getAttribute("data-num");
+
+
+        self.location = `/todo/list?page=\${num}`
+    },false)
+</script>
 </body>
 </html>
