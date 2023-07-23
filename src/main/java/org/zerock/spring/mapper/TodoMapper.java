@@ -1,6 +1,7 @@
 package org.zerock.spring.mapper;
 
 import org.zerock.spring.domain.TodoVO;
+import org.zerock.spring.dto.PageRequestDTO;
 
 import java.util.List;
 
@@ -12,9 +13,13 @@ public interface TodoMapper {
 
     List<TodoVO> selectAll();
 
+    List<TodoVO> selectList(PageRequestDTO pageRequestDTO);
+
     TodoVO selectOne(Long tno);
 
     void delete(Long tno);
 
     void update(TodoVO todoVO);
+
+
 }

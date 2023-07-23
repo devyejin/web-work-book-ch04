@@ -16,6 +16,10 @@
         select * from tbl_todo order by tno desc
     </select>
 
+    <select id="selectList" resultType="org.zerock.spring.domain.TodoVO">
+        select * from tbl_todo order by tno desc limit #{skip}, #{size}
+    </select>
+
     <select id="selectOne" resultType="org.zerock.spring.domain.TodoVO">
         select * from tbl_todo where tno = #{tno}
     </select>
