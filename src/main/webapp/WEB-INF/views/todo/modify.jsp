@@ -13,8 +13,8 @@
 <div class="card-body">
 
     <form action="/todo/modify" method="post">
-        <input type="hidden" name="page" value="${pageRequestDTO.page}">
-        <input type="hidden" name="size" value="${pageRequestDTO.size}">
+
+
         <div class="input-group mb-3">
             <span class="input-group-text">TNO</span>
             <input type="text" name="tno" class="form-control"
@@ -73,18 +73,18 @@ console.log(serverValidResult);
 <%--    버튼에 이벤트 거는 JS 코드 --%>
     const formObj = document.querySelector("form")
 
-    <!-- addEventListener false 옵션 : 기본값이 false, true로하면 이벤트가 단 한번만 사용됨-->
+ //   <!-- addEventListener false 옵션 : 기본값이 false, true로하면 이벤트가 단 한번만 사용됨-->
     document.querySelector(".btn-danger").addEventListener("click",(e) => {
         e.preventDefault();
         e.stopPropagation();
-        formObj.action = "/todo/remove";
+        formObj.action = `/todo/remove?${pageRequestDTO.link}`;
         formObj.method = "post";
 
         formObj.submit();
 
     })
 
-    document.querySelector(".btn-primary").addEventListener("click", function (e) {
+document.querySelector(".btn-primary").addEventListener("click", function (e) {
 
         //console.log(self.location); //<-- 이건 getter로 동작 (참고용)
         //self.location = "/todo/modify?tno=" +${dto.tno} // <-- 이건 setter로동작

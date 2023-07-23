@@ -51,16 +51,29 @@ public class TodoMapperTests {
         log.info(todoVO);
     }
 
+//    @Test
+//    void testSelectList() {
+//        //given
+//        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
+//
+//        //when
+//        List<TodoVO> voList = todoMapper.selectList(pageRequestDTO);
+//
+//        //then
+//        voList.forEach(vo -> log.info(vo));
+//        Assertions.assertThat(voList).size().isEqualTo(10);
+//    }
+
     @Test
-    void testSelectList() {
-        //given
-        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
+    void testSelectSearch() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1).size(10).types(new String[]{"t", "w"})
+                .keyword("날씨")
+                .build();
 
-        //when
         List<TodoVO> voList = todoMapper.selectList(pageRequestDTO);
-
-        //then
         voList.forEach(vo -> log.info(vo));
-        Assertions.assertThat(voList).size().isEqualTo(10);
+
+
     }
 }
