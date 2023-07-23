@@ -55,7 +55,11 @@ dependencies {
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.0.0'
 
     implementation group: 'org.hibernate', name: 'hibernate-validator', version: '6.2.1.Final'
+
+    // https://mvnrepository.com/artifact/org.assertj/assertj-core
+    testImplementation 'org.assertj:assertj-core:3.23.1'
 }
+
 
 test {
     useJUnitPlatform()

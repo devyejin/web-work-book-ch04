@@ -1,13 +1,14 @@
 package org.zerock.spring.mapper;
 
 import lombok.extern.log4j.Log4j2;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.zerock.spring.domain.TodoVO;
+import org.zerock.spring.dto.PageRequestDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -44,10 +45,33 @@ public class TodoMapperTests {
         voList.forEach(vo -> log.info(vo));
     }
 
-//    @Test
-//    void testSelectList() {
-//
-//    }
+    @Test
+    void testSelectList() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
+        List<TodoVO> voList = todoMapper.selectList(pageRequestDTO);
+
+        voList.forEach(vo ->log.info(vo));
+
+        Assertions.assertThat(voList).size().isEqualTo(10);
+
+
+
+
+    }
+
+    @Test
+    void testGetCount() {
+        //given
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
+
+        //when
+        int count = todoMapper.getCount(pageRequestDTO);
+
+        //then
+        log.info(count);
+
+
+    }
 
     @Test
     void testSelectOne() {

@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${dtoList}" var="dto">
+        <c:forEach items="${responseDTO.dtoList}" var="dto">
             <tr>
                 <th scope="row"><c:out value="${dto.tno}"/></th> <!--c:out 변수 값 출력 -->
                 <td><a href="/todo/read?tno=${dto.tno}" class="text-decoration-none"/><c:out value="${dto.title}"/></td>
@@ -38,6 +38,17 @@
         </c:forEach>
         </tbody>
     </table>
+
+<%--    페이지 번호--%>
+    <div class="float-end">
+        <ul class="pagination flex-wrap">
+            <c:forEach begin="${responseDTO.start}" end="${responseDTO.end}" var="num">
+                <li class="page-item">
+                    <a href="#" class="page-link">${num}</a>
+                </li>
+            </c:forEach>
+        </ul>
+    </div>
 </div>
 </body>
 </html>

@@ -21,5 +21,7 @@ public interface TodoMapper {
 
     void update(TodoVO todoVO);
 
+    int getCount(PageRequestDTO pageRequestDTO); //전체 데이터 수
+
 
 }

@@ -5,8 +5,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.spring.dto.PageRequestDTO;
+import org.zerock.spring.dto.PageResponseDTO;
 import org.zerock.spring.dto.TodoDTO;
 import org.zerock.spring.service.TodoService;
 
@@ -21,14 +24,35 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    @GetMapping("/list")
-    public String list(Model model) {
-        log.info("todo list........");
-         //모델에 담아서 뷰로
+//    @GetMapping("/list")
+//    public String list(Model model) {
+//        log.info("todo list........");
+//         //모델에 담아서 뷰로
+//
+//        model.addAttribute("dtoList",todoService.getAll());
+//        return "/todo/list";
+//    }
 
-        model.addAttribute("dtoList",todoService.getAll());
-        return "/todo/list";
+
+    @GetMapping("/list")
+    public void list(@Valid PageRequestDTO pageRequestDTO,
+                       BindingResult bindingResult,
+                       Model model) {
+
+        log.info("pageRequestDTO={}", pageRequestDTO);
+        if(bindingResult.hasErrors()) {
+            //요청에 에러가 있으면 1페이지(기본 값)로 보내버리기
+            log.info("todo/list GET 요청에 에러가 있어요....");
+             pageRequestDTO = PageRequestDTO.builder().build();
+        }
+
+        PageResponseDTO<TodoDTO> responseDTO = todoService.getList(pageRequestDTO);
+        model.addAttribute("responseDTO", responseDTO);
+
+        //jsp페이지 명시안하면 요청이랑 같은 페이지 찾아서 보냄 /todo/list.jsp
     }
+
+
 
     // @RequestMapping(value = "/register", method = RequestMethod.GET)
     @GetMapping("/register")
